@@ -11,6 +11,12 @@
             "program": "./test/"
         },
         {
+            "name": "Dart: Exemplos",
+            "type": "dart",
+            "request": "launch",
+            "program": "bin/main.dart", // or test/foo for a subset of tests
+        },
+        {
             "name": "teste_unitarios_dart",
             "request": "launch",
             "type": "dart"
