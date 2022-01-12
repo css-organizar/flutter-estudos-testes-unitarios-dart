@@ -4,18 +4,19 @@ import 'dart:async';
 
 import 'package:http/http.dart' as http;
 
-import 'package:mocktail/mocktail.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-import '../../../../bin/domain/entities/person.dart';
-import '../../../../bin/infrastructure/services/mockapi/person_repository.dart';
-import 'person_data.dart';
+import '../../../../../bin/domain/entities/person.dart';
+import '../../../../../bin/infrastructure/services/mockapi/person_repository.dart';
+import '../person_data.dart';
+import 'person_repository_mockito_test.mocks.dart';
 
-class HttpClientMock extends Mock implements http.Client {}
-
+@GenerateMocks([http.Client])
 void main() async {
   group(
-    'teste_api_mockapi',
+    'teste_api_mockito',
     () {
       final client = http.Client();
       var repository = PersonRepository(client);
@@ -67,14 +68,14 @@ void main() async {
   );
 
   group(
-    'mocktail test - HttpClient, PersonRepository',
+    'teste_api_mockito - HttpClient, PersonRepository',
     () {
-      late HttpClientMock client;
+      late MockClient client;
       late PersonRepository repository;
 
       setUpAll(
         () {
-          client = HttpClientMock();
+          client = MockClient();
           repository = PersonRepository(client);
           print('Iniciando os testes');
         },
@@ -90,11 +91,9 @@ void main() async {
         'teste person.get()',
         () async {
           when(
-            () {
-              return client.get(
-                Uri.parse('https://61ddc5ebf60e8f0017668a5a.mockapi.io/api/v1/person'),
-              );
-            },
+            client.get(
+              Uri.parse('https://61ddc5ebf60e8f0017668a5a.mockapi.io/api/v1/person'),
+            ),
           ).thenAnswer(
             (invocation) async {
               return http.Response(personData, 200);
@@ -117,11 +116,9 @@ void main() async {
         'teste person.get() - Erro 404',
         () async {
           when(
-            () {
-              return client.get(
-                Uri.parse('https://61ddc5ebf60e8f0017668a5a.mockapi.io/api/v1/person'),
-              );
-            },
+            client.get(
+              Uri.parse('https://61ddc5ebf60e8f0017668a5a.mockapi.io/api/v1/person'),
+            ),
           ).thenAnswer(
             (invocation) async {
               return http.Response('', 404);
@@ -140,11 +137,9 @@ void main() async {
         'teste person.get() - Erro 404 - timeout (20s)',
         () async {
           when(
-            () {
-              return client.get(
-                Uri.parse('https://61ddc5ebf60e8f0017668a5a.mockapi.io/api/v1/person'),
-              );
-            },
+            client.get(
+              Uri.parse('https://61ddc5ebf60e8f0017668a5a.mockapi.io/api/v1/person'),
+            ),
           ).thenAnswer(
             (invocation) async {
               await Future.delayed(Duration(seconds: 20));
