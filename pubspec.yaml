@@ -18,6 +18,8 @@ dev_dependencies:
   flutter_lints: ^1.0.0
   test: ^1.17.12
   mocktail: ^0.2.0
+  mockito: ^5.0.17
+  build_runner: ^2.1.7
 
 
 flutter:
