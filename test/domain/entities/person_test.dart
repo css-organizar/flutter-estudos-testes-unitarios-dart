@@ -118,7 +118,7 @@ void main() async {
 
       group('Validando Erro em Retorno de Funções', () {
         test(
-          'Erro ao tentar converter idade de uma string inválida Skip',
+          'Skip - Erro ao tentar converter idade de uma string inválida Skip',
           () {
             person = Person('0', 'Administrador', 6, 0.83, 24);
             expect(() => int.parse('_10'), throwsA(isA<NullThrownError>()));

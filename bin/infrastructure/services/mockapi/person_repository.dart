@@ -4,7 +4,10 @@ import 'package:http/http.dart';
 import '../../../domain/entities/person.dart';
 
 class PersonRepository {
-  final Client client = Client();
+  final Client client;
+
+  PersonRepository(this.client);
+
   Future<List<Person>> getPerson() async {
     Response response = await client.get(Uri.parse('https://61ddc5ebf60e8f0017668a5a.mockapi.io/api/v1/person'));
 
@@ -14,10 +17,10 @@ class PersonRepository {
         var resultJson = jsonDecode(resultString) as List;
         return resultJson.map((e) => Person.fromMap(e)).toList();
       } else {
-        return [];
+        throw Exception('Erro (404)');
       }
     } catch (e) {
-      return [];
+      throw Exception('Erro: ${e.toString()}');
     }
   }
 }
